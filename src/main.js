@@ -1,7 +1,5 @@
 /* eslint-disable */
-
 import { Flip } from 'number-flip'
-const $ = (s) => document.querySelector(s)
 
 import Swiper from 'swiper'
 import {
