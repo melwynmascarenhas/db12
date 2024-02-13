@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "gsap": "^3.9.1",
+    "number-flip": "^1.1.10",
     "swiper": "^11.0.6"
   }
 }
