@@ -1,5 +1,9 @@
 /* eslint-disable */
 import { Flip } from 'number-flip'
+import { gsap } from 'gsap'
+
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+gsap.registerPlugin(ScrollTrigger)
 
 import Swiper from 'swiper'
 import {
@@ -148,9 +152,30 @@ const isIntro = new Swiper('.swiper.is-intro', {
 //   })
 // }
 
-let els = document.querySelectorAll('.separate')
+// let els = document.querySelectorAll('.separate')
+// document.querySelector('.btn1').onclick = () => {
+//   els.forEach((el) => {
+//     el.removeChild(el.firstChild)
+//     let value = el.getAttribute('data')
+//     console.log(value)
+//     const sepa = new Flip({
+//       node: el,
+//       from: 0,
+//     })
+//     sepa.flipTo({
+//       to: value,
+//       duration: 2,
+//       easeFn: function (pos) {
+//         if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 3)
+//         return 0.5 * (Math.pow(pos - 2, 3) + 2)
+//       },
+//     })
+//   })
+// }
 
-document.querySelector('.btn1').onclick = () => {
+let els = document.querySelectorAll('.separate')
+// Function to execute when trigger enters the view
+function myFunction() {
   els.forEach((el) => {
     el.removeChild(el.firstChild)
     let value = el.getAttribute('data')
@@ -161,7 +186,7 @@ document.querySelector('.btn1').onclick = () => {
     })
     sepa.flipTo({
       to: value,
-      duration: 2,
+      duration: 3,
       easeFn: function (pos) {
         if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 3)
         return 0.5 * (Math.pow(pos - 2, 3) + 2)
@@ -169,3 +194,13 @@ document.querySelector('.btn1').onclick = () => {
     })
   })
 }
+
+// Get the trigger element
+const triggerElement = document.querySelector('.box')
+
+// Create ScrollTrigger
+ScrollTrigger.create({
+  trigger: triggerElement,
+  start: 'top bottom', // Start the animation when the top of the trigger element reaches the bottom of the viewport
+  onEnter: myFunction, // Execute myFunction when the trigger enters the view
+})
