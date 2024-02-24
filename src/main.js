@@ -106,7 +106,7 @@ const gallerySlider = new Swiper('.swiper.is-gallery', {
 
 const isIntro = new Swiper('.swiper.is-intro', {
   slidePerView: 1,
-  speed: 400,
+  speed: 800,
   effect: 'fade',
   loop: true,
   allowTouchMove: true,
