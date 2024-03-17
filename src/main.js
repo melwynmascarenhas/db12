@@ -135,44 +135,6 @@ const isIntro = new Swiper('.swiper.is-intro', {
   },
 })
 
-// let el = document.querySelector('.separate')
-// const sepa = new Flip({
-//   node: el,
-//   from: 0,
-// })
-// document.querySelector('.btn1').onclick = () => {
-//   el.removeChild(el.firstChild)
-//   sepa.flipTo({
-//     to: 9,
-//     duration: 2,
-//     easeFn: function (pos) {
-//       if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 3)
-//       return 0.5 * (Math.pow(pos - 2, 3) + 2)
-//     },
-//   })
-// }
-
-// let els = document.querySelectorAll('.separate')
-// document.querySelector('.btn1').onclick = () => {
-//   els.forEach((el) => {
-//     el.removeChild(el.firstChild)
-//     let value = el.getAttribute('data')
-//     console.log(value)
-//     const sepa = new Flip({
-//       node: el,
-//       from: 0,
-//     })
-//     sepa.flipTo({
-//       to: value,
-//       duration: 2,
-//       easeFn: function (pos) {
-//         if ((pos /= 0.5) < 1) return 0.5 * Math.pow(pos, 3)
-//         return 0.5 * (Math.pow(pos - 2, 3) + 2)
-//       },
-//     })
-//   })
-// }
-
 let els = document.querySelectorAll('.separate')
 // Function to execute when trigger enters the view
 function myFunction() {
