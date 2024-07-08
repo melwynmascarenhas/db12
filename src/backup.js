@@ -3,7 +3,6 @@ import { Flip as NumberFlip } from 'number-flip'
 import { gsap } from 'gsap'
 import { Flip } from 'gsap/Flip'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import SplitType from 'split-type'
 gsap.registerPlugin(Flip, ScrollTrigger)
 
 import Swiper from 'swiper'
@@ -175,72 +174,20 @@ const isIntro = new Swiper('.swiper.is-intro', {
   },
 })
 
-const modalsContainer = document.querySelector('.modal')
-const modals = modalsContainer.querySelectorAll('.modal-item')
+const modalContents = document.querySelectorAll('.interior-modal-item')
 
-modals.forEach((modal) => {
-  const cards = modal.querySelectorAll('.modal-detail-item')
+const modalScroller = document.querySelector('.modal-content')
 
-  // Set initial opacity for images
-  const images = modal.querySelectorAll('.feature-img-wrap')
-  images.forEach((image, index) => {
-    if (index !== 0) {
-      image.style.opacity = '0'
-    }
-  })
-
-  // Initialize ScrollTriggers
-  cards.forEach((card, index) => {
-    if (index !== 0) {
-      ScrollTrigger.create({
-        trigger: card,
-        start: 'top top',
-        onEnter: () => {
-          gsap.to(card.querySelector('.feature-img-wrap'), {
-            opacity: 1,
-            duration: 1,
-          })
-        },
-        onLeave: () => {
-          gsap.to(card.querySelector('.feature-img-wrap'), {
-            opacity: 0,
-            duration: 1,
-          })
-        },
-        onLeaveBack: () => {
-          gsap.to(card.querySelector('.feature-img-wrap'), {
-            opacity: 0,
-            duration: 1,
-          })
-        },
-        onEnterBack: () => {
-          gsap.to(card.querySelector('.feature-img-wrap'), {
-            opacity: 1,
-            duration: 1,
-          })
-        },
-        scroller: modal.querySelector('.modal-detail-list'),
-        markers: true,
-        invalidateOnRefresh: true,
-      })
-    }
-  })
-
-  const closeButton = modal.querySelector('.close-button')
-  closeButton.addEventListener('click', closeModal)
+modalContents.forEach((modalContent) => {
+  modalContent.style.display = 'none'
 })
 
-function closeModal() {
-  modalsContainer.classList.remove('two')
-  document.body.style.overflow = 'auto'
-  modals.forEach((modal) => {
-    modal.style.display = 'none'
-    ScrollTrigger.refresh()
-  })
-}
+var Modal = document.querySelector('.modal-container')
+const CloseButton = Modal.querySelector('.close-button')
 
 const swipers = document.querySelectorAll('.swiper.is-slider-main')
 swipers.forEach((slider) => {
+  //common slide code
   const swiper = new Swiper(slider, {
     slidesPerView: 3,
     loop: true,
@@ -251,55 +198,55 @@ swipers.forEach((slider) => {
     },
     followFinger: true,
     spaceBetween: '5%',
+    //this will push the slides outside the container so specify brpoints in slidesPer as below
   })
+  //common slide code ENDS
+
+  //ITERATE SLIDES FOR CLICK EVENT
   const slides = slider.querySelectorAll('.swiper-slide')
   slides.forEach((slide) => {
-    slide.addEventListener('click', () => {
-      const location = slide.querySelector('.feature_id').textContent
-      modalsContainer.classList.add('two')
-      modals[location].style.display = 'flex'
-      ScrollTrigger.refresh()
+    const button = slide.querySelector('.feature-slide-content')
+    const location = 0
+    // slide.querySelector('.feature_id').textContent
+
+    button.addEventListener('click', () => {
+      console.log(button)
+      console.log(location)
+      let modalContent = modalContents[location]
+      modalContent.style.display = 'flex'
+      Modal.classList.add('two')
       document.body.style.overflow = 'hidden'
+
+      //dont use query selector since we want in array of class format.
+      const details = modalContent.querySelectorAll(
+        '.feature-detail-wrap:not(:first-child)'
+      )
+      const allPhotos = modalContent.querySelectorAll('.feature-image-wrap')
+      let photos = [...allPhotos].slice(1)
+      photos.forEach((photo) => {
+        photo.style.opacity = 0
+
+        gsap.to(photo, {
+          opacity: 0.5,
+          scrollTrigger: {
+            trigger: photo,
+            start: 'top 80%',
+            end: 'top top%',
+            scrub: true,
+            scroller: modalContent,
+            markers: true,
+          },
+        })
+      })
+    })
+
+    CloseButton.addEventListener('click', () => {
+      Modal.classList.remove('two')
+      document.body.style.overflow = 'auto'
+      console.log('Clicked slide index:', location)
+      modalContents.forEach((modalContent) => {
+        modalContent.style.display = 'block'
+      })
     })
   })
-})
-
-///mask split-type gsap words
-let typeSplit
-function runSplit() {
-  typeSplit = new SplitType('.split-word', {
-    types: 'lines, words',
-  })
-  document.querySelectorAll('.word').forEach((word) => {
-    const lineMask = document.createElement('div')
-    lineMask.classList.add('line-mask')
-    word.appendChild(lineMask)
-  })
-  createAnimation()
-}
-runSplit()
-function createAnimation() {
-  const allMasks = Array.from(document.querySelectorAll('.word .line-mask'))
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '.split-word',
-      start: 'top center',
-      end: 'bottom center',
-      scrub: 1,
-    },
-  })
-
-  tl.to(allMasks, {
-    width: '0%',
-    duration: 1,
-    stagger: 0.5,
-  })
-}
-/// Ends mask split-type gsap words
-
-//refresh on resize
-window.addEventListener('resize', () => {
-  runSplit()
-  ScrollTrigger.refresh()
-  closeModal()
 })
