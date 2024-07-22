@@ -1,4 +1,5 @@
 /* eslint-disable */
+import Typewriter from 'typewriter-effect/dist/core'
 import { Flip as NumberFlip } from 'number-flip'
 import { gsap } from 'gsap'
 import { Flip } from 'gsap/Flip'
@@ -32,10 +33,29 @@ Swiper.use([
   Parallax,
 ])
 
+//typewriter
+let badge = document.querySelector('.w-webflow-badge')
+
+badge.style.visibility = 'hidden'
+badge.style.opacity = '0'
+badge.style.display = 'none'
+
+new Typewriter('#typewriter', {
+  strings: [
+    'Embark on a journey of unparalleled sophistication',
+    'Revolutionary design meets cutting-edge technology',
+    'Redefining automotive excellence for over 67 years',
+  ],
+  autoStart: true,
+  loop: true,
+  delay: 75,
+})
+//typewrite ends
+
 //NAV LINKS FLIP code…
 let navLinks = document.querySelectorAll('.nav-link')
 let navCorners = document.querySelector('.nav-corners')
-let sectionEls = document.querySelectorAll('.section')
+let sectionEls = document.querySelectorAll('[is-section]')
 
 //removing active form all nav links and add to the actual active
 function updateActiveNavLink(targetId) {
@@ -90,6 +110,37 @@ navLinks.forEach(function (link) {
   })
 })
 ///NAV LINKS FLIP ends here
+
+//menu nav links code
+let menuWrap = document.querySelector('.menu_wrap')
+let menuIcon = document.querySelector('.menu')
+let closeIcon = document.querySelector('.close')
+let mobLinks = document.querySelectorAll('.menu-nav-link')
+
+mobLinks.forEach((link) => {
+  link.addEventListener('click', hideMenu)
+})
+function showMenu() {
+  menuWrap.style.display = 'flex'
+  setTimeout(() => {
+    closeIcon.classList.add('show-icon')
+    menuIcon.classList.remove('show-icon')
+    menuWrap.style.opacity = '1'
+  }, 100)
+}
+
+function hideMenu() {
+  menuIcon.classList.add('show-icon')
+  closeIcon.classList.remove('show-icon')
+  menuWrap.style.opacity = '0'
+  setTimeout(() => {
+    menuWrap.style.display = 'none'
+  }, 500)
+}
+
+menuIcon.addEventListener('click', showMenu)
+closeIcon.addEventListener('click', hideMenu)
+//menu nav links code ends
 
 ///NUMBERS CODE
 let els = document.querySelectorAll('.separate')
@@ -158,8 +209,8 @@ const isIntro = new Swiper('.swiper.is-intro', {
   },
   // Navigation arrows
   navigation: {
-    nextEl: '.slider-next',
-    prevEl: '.slider-prev',
+    nextEl: '.slider-next.is-intro',
+    prevEl: '.slider-prev.is-intro',
     // disabledClass: "is-disabled",
   },
 
@@ -234,27 +285,48 @@ function closeModal() {
   modalsContainer.classList.remove('two')
   document.body.style.overflow = 'auto'
   modals.forEach((modal) => {
-    modal.style.display = 'none'
-    ScrollTrigger.refresh()
+    // lenis.start()
+    setTimeout(() => {
+      modal.style.display = 'none'
+      ScrollTrigger.refresh()
+    }, 500)
   })
 }
 
-const swipers = document.querySelectorAll('.swiper.is-slider-main')
-swipers.forEach((slider) => {
+const swiperContainers = document.querySelectorAll(
+  '.section-padding.experience-features'
+)
+swiperContainers.forEach((container) => {
+  const slider = container.querySelector('.swiper.is-slider-main')
+  const bulletWrapper = container.querySelector('.swiper-bullet-wrapper')
+
   const swiper = new Swiper(slider, {
-    slidesPerView: 3,
+    slidesPerView: 4,
     loop: true,
+    //centeredSlides: true,
     speed: 700,
     keyboard: true,
+    navigation: {
+      nextEl: '.slider-next.is-features',
+      prevEl: '.slider-prev.is-features',
+    },
+    pagination: {
+      el: bulletWrapper,
+      bulletClass: 'swiper-bullet',
+      bulletActiveClass: 'is-active',
+      bulletElement: 'button',
+      clickable: true,
+    },
     mousewheel: {
       forceToAxis: true,
     },
     followFinger: true,
-    spaceBetween: '5%',
+    spaceBetween: '3%',
   })
   const slides = slider.querySelectorAll('.swiper-slide')
   slides.forEach((slide) => {
     slide.addEventListener('click', () => {
+      //  lenis.stop()
       const location = slide.querySelector('.feature_id').textContent
       modalsContainer.classList.add('two')
       modals[location].style.display = 'flex'
@@ -266,7 +338,10 @@ swipers.forEach((slider) => {
 
 ///mask split-type gsap words
 let typeSplit
+let heroTitle
 function runSplit() {
+  heroTitle = new SplitType('.cover-text', { types: 'chars' })
+
   typeSplit = new SplitType('.split-word', {
     types: 'lines, words',
   })
@@ -278,6 +353,25 @@ function runSplit() {
   createAnimation()
 }
 runSplit()
+
+const preloaderTL = gsap
+  .timeline()
+  .from(heroTitle.chars, {
+    opacity: 0,
+    filter: 'blur(60px)',
+    y: 50,
+    duration: 0.75,
+    stagger: 0.075,
+    ease: 'sine.out',
+    //  onComplete: enableScrolling,
+  })
+  .from('.cover-arrow', {
+    //opacity: 0,
+    // filter: 'blur(60px)',
+    y: '100%',
+    duration: 0.75,
+    ease: 'sine.out',
+  })
 function createAnimation() {
   const allMasks = Array.from(document.querySelectorAll('.word .line-mask'))
   const tl = gsap.timeline({

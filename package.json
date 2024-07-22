@@ -24,8 +24,11 @@
   },
   "dependencies": {
     "gsap": "^3.9.1",
+    "lenis": "^1.0.45",
     "number-flip": "^1.1.10",
+    "react-simple-typewriter": "^5.0.1",
     "split-type": "^0.3.4",
-    "swiper": "^11.0.6"
+    "swiper": "^11.0.6",
+    "typewriter-effect": "^2.21.0"
   }
 }
