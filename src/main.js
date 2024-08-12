@@ -34,22 +34,24 @@ Swiper.use([
 ])
 
 //typewriter
-let badge = document.querySelector('.w-webflow-badge')
-
-badge.style.visibility = 'hidden'
-badge.style.opacity = '0'
-badge.style.display = 'none'
-
-new Typewriter('#typewriter', {
-  strings: [
-    'Embark on a journey of unparalleled sophistication',
-    'Revolutionary design meets cutting-edge technology',
-    'Redefining automotive excellence for over 67 years',
-  ],
-  autoStart: true,
-  loop: true,
-  delay: 75,
+let typewriters = document.querySelectorAll('.typewriter')
+typewriters.forEach((typewriter) => {
+  typewriter.innerText = ''
 })
+function startTypewriter() {
+  typewriters.forEach((typewriter) => {
+    new Typewriter(typewriter, {
+      strings: [
+        'Embark on a journey of unparalleled sophistication',
+        'Revolutionary design meets cutting-edge technology',
+        'Redefining automotive excellence for over 67 years',
+      ],
+      autoStart: true,
+      loop: true,
+      delay: 45,
+    })
+  })
+}
 //typewrite ends
 
 //NAV LINKS FLIP code…
@@ -166,7 +168,6 @@ function myFunction() {
 
 // Get the trigger element
 const triggerElement = document.querySelector('.box')
-
 // Create ScrollTrigger
 ScrollTrigger.create({
   trigger: triggerElement,
@@ -177,114 +178,116 @@ ScrollTrigger.create({
   },
   id: 'myTrigger', // Assign an ID to the ScrollTrigger instance
 })
-//// NUMBER CODE ENDS HERE
+//// NUMBERS CODE ENDS HERE
 
 //SWIPERS CODE START HERE
+function intIntroSwiper() {
+  const isIntro = new Swiper('.swiper.is-intro', {
+    slidePerView: 1,
+    speed: 800,
+    effect: 'fade',
+    loop: true,
+    allowTouchMove: true,
+    grabCursor: true, //just changes the icon
+    followFinger: true, //drag on touchpad/mobile
+    keyboard: true,
+    mousewheel: {
+      forceToAxis: true,
+    },
+    // Navigation arrows
+    navigation: {
+      nextEl: '.slider-next.is-intro',
+      prevEl: '.slider-prev.is-intro',
+      // disabledClass: "is-disabled",
+    },
 
-function doubleDigits(num) {
-  if (num < 10) {
-    return '0' + num
-  } else return num
+    pagination: {
+      el: '.swiper-pagination-progressbar',
+      type: 'progressbar',
+      clickable: true,
+      progressbarFillClass: 'swiper-pagination-progressbar-fill',
+    },
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+  })
 }
-const bgslider = new Swiper('.swiper_gallery', {
-  slidePerView: 1,
-  speed: 400,
-  effect: 'fade',
-  loop: true,
-  // loopedSlides: 8,
-  allowTouchMove: false, //click an drag
-})
+intIntroSwiper()
 
-const isIntro = new Swiper('.swiper.is-intro', {
-  slidePerView: 1,
-  speed: 800,
-  effect: 'fade',
-  loop: true,
-  allowTouchMove: true,
-  grabCursor: true, //just changes the icon
-  followFinger: true, //drag on touchpad/mobile
-  keyboard: true,
-  mousewheel: {
-    forceToAxis: true,
-  },
-  // Navigation arrows
-  navigation: {
-    nextEl: '.slider-next.is-intro',
-    prevEl: '.slider-prev.is-intro',
-    // disabledClass: "is-disabled",
-  },
-
-  pagination: {
-    el: '.swiper-pagination-progressbar',
-    type: 'progressbar',
-    clickable: true,
-    progressbarFillClass: 'swiper-pagination-progressbar-fill',
-  },
-  autoplay: {
-    delay: 5000,
-    disableOnInteraction: false,
-  },
-})
+function restartIntro() {
+  if (isIntro) {
+    isIntro.destroy(true, true)
+  }
+  intIntroSwiper()
+}
 
 const modalsContainer = document.querySelector('.modal')
 const modals = modalsContainer.querySelectorAll('.modal-item')
 
 modals.forEach((modal) => {
   const cards = modal.querySelectorAll('.modal-detail-item')
-
-  // Set initial opacity for images
   const images = modal.querySelectorAll('.feature-img-wrap')
-  images.forEach((image, index) => {
-    if (index !== 0) {
-      image.style.opacity = '0'
-    }
-  })
 
-  // Initialize ScrollTriggers
-  cards.forEach((card, index) => {
-    if (index !== 0) {
-      ScrollTrigger.create({
-        trigger: card,
-        start: 'top top',
-        onEnter: () => {
-          gsap.to(card.querySelector('.feature-img-wrap'), {
-            opacity: 1,
-            duration: 1,
-          })
-        },
-        onLeave: () => {
-          gsap.to(card.querySelector('.feature-img-wrap'), {
-            opacity: 0,
-            duration: 1,
-          })
-        },
-        onLeaveBack: () => {
-          gsap.to(card.querySelector('.feature-img-wrap'), {
-            opacity: 0,
-            duration: 1,
-          })
-        },
-        onEnterBack: () => {
-          gsap.to(card.querySelector('.feature-img-wrap'), {
-            opacity: 1,
-            duration: 1,
-          })
-        },
-        scroller: modal.querySelector('.modal-detail-list'),
-        markers: true,
-        invalidateOnRefresh: true,
-      })
-    }
-  })
+  gsap.matchMedia().add('(min-width: 992px)', () => {
+    // Set initial opacity for images
+    images.forEach((image, index) => {
+      if (index !== 0) {
+        // image.style.opacity = '0'
+        gsap.set(image, { opacity: 0 })
+      }
+    })
 
-  const closeButton = modal.querySelector('.close-button')
-  closeButton.addEventListener('click', closeModal)
+    // Initialize ScrollTriggers
+    cards.forEach((card, index) => {
+      if (index !== 0) {
+        ScrollTrigger.create({
+          trigger: card,
+          start: 'top top',
+          onEnter: () => {
+            gsap.to(card.querySelector('.feature-img-wrap'), {
+              opacity: 1,
+              duration: 1,
+            })
+          },
+          onLeave: () => {
+            gsap.to(card.querySelector('.feature-img-wrap'), {
+              opacity: 0,
+              duration: 1,
+            })
+          },
+          onLeaveBack: () => {
+            gsap.to(card.querySelector('.feature-img-wrap'), {
+              opacity: 0,
+              duration: 1,
+            })
+          },
+          onEnterBack: () => {
+            gsap.to(card.querySelector('.feature-img-wrap'), {
+              opacity: 1,
+              duration: 1,
+            })
+          },
+          scroller: modal.querySelector('.modal-detail-list'),
+          // markers: true,
+          invalidateOnRefresh: true,
+        })
+      }
+    })
+  })
+  const closeButtons = modal.querySelectorAll('.close-button')
+  closeButtons.forEach((closeButton) => {
+    closeButton.addEventListener('click', closeModal)
+  })
 })
 
 function closeModal() {
   modalsContainer.classList.remove('two')
   document.body.style.overflow = 'auto'
   modals.forEach((modal) => {
+    const scroller = modal.querySelector('.modal-detail-list')
+    scroller.scrollTop = 0 // for vertical scroll reset
+    scroller.scrollLeft = 0
     // lenis.start()
     setTimeout(() => {
       modal.style.display = 'none'
@@ -293,48 +296,90 @@ function closeModal() {
   })
 }
 
-const swiperContainers = document.querySelectorAll(
-  '.section-padding.experience-features'
-)
-swiperContainers.forEach((container) => {
-  const slider = container.querySelector('.swiper.is-slider-main')
-  const bulletWrapper = container.querySelector('.swiper-bullet-wrapper')
+let swipers = []
 
-  const swiper = new Swiper(slider, {
-    slidesPerView: 4,
-    loop: true,
-    //centeredSlides: true,
-    speed: 700,
-    keyboard: true,
-    navigation: {
-      nextEl: '.slider-next.is-features',
-      prevEl: '.slider-prev.is-features',
-    },
-    pagination: {
-      el: bulletWrapper,
-      bulletClass: 'swiper-bullet',
-      bulletActiveClass: 'is-active',
-      bulletElement: 'button',
-      clickable: true,
-    },
-    mousewheel: {
-      forceToAxis: true,
-    },
-    followFinger: true,
-    spaceBetween: '3%',
-  })
-  const slides = slider.querySelectorAll('.swiper-slide')
-  slides.forEach((slide) => {
-    slide.addEventListener('click', () => {
-      //  lenis.stop()
-      const location = slide.querySelector('.feature_id').textContent
-      modalsContainer.classList.add('two')
-      modals[location].style.display = 'flex'
-      ScrollTrigger.refresh()
-      document.body.style.overflow = 'hidden'
+function initializeSwipers() {
+  const swiperContainers = document.querySelectorAll(
+    '.section-padding.experience-features'
+  )
+
+  swiperContainers.forEach((container, index) => {
+    const bulletWrapper = container.querySelector('.swiper-bullet-wrapper')
+
+    swipers[index] = new Swiper(
+      container.querySelector('.swiper.is-slider-main'),
+      {
+        loop: true,
+        speed: 700,
+        keyboard: true,
+        spaceBetween: '4%',
+        navigation: {
+          nextEl: container.querySelector('.slider-next.is-features'),
+          prevEl: container.querySelector('.slider-prev.is-features'),
+        },
+        pagination: {
+          el: bulletWrapper,
+          bulletClass: 'swiper-bullet',
+          bulletActiveClass: 'is-active',
+          bulletElement: 'button',
+          clickable: true,
+        },
+        mousewheel: {
+          forceToAxis: true,
+        },
+        followFinger: true,
+        breakpoints: {
+          1600: {
+            slidesPerView: 4,
+          },
+          1200: {
+            slidesPerView: 3,
+          },
+          768: {
+            slidesPerView: 2,
+          },
+          480: {
+            slidesPerView: 2,
+            spaceBetween: '4%',
+          },
+          0: {
+            slidesPerView: 1,
+            spaceBetween: '0%',
+            centeredSlides: true,
+          },
+        },
+      }
+    )
+
+    const slides = container.querySelectorAll('.swiper-slide')
+    slides.forEach((slide) => {
+      slide.addEventListener('click', () => {
+        const location = slide.querySelector('.feature_id').textContent
+        modalsContainer.classList.add('two')
+        modals[location].style.display = 'flex'
+        ScrollTrigger.refresh()
+        document.body.style.overflow = 'hidden'
+      })
     })
   })
+}
+
+function destroySwipers() {
+  swipers.forEach((swiper) => {
+    if (swiper) {
+      swiper.destroy(true, true)
+    }
+  })
+  swipers = []
+}
+
+window.addEventListener('resize', () => {
+  destroySwipers()
+  initializeSwipers()
 })
+
+// Initialize Swipers for the first time
+initializeSwipers()
 
 ///mask split-type gsap words
 let typeSplit
@@ -354,8 +399,22 @@ function runSplit() {
 }
 runSplit()
 
-const preloaderTL = gsap
-  .timeline()
+const preloaderTL = gsap.timeline()
+gsap.set('.loading-logo', { opacity: 0 })
+const loaderTimeline = gsap.timeline()
+loaderTimeline
+  .to('.loading-logo', { duration: 1, opacity: 1, ease: 'power1.inOut' })
+  .to('.loading-logo', { duration: 1, opacity: 0, ease: 'power1.inOut' })
+  .repeat(3)
+
+preloaderTL.add(loaderTimeline)
+
+preloaderTL
+  .to('.preloader-container', {
+    opacity: 0,
+    duration: 2,
+    ease: 'power4.inOut',
+  })
   .from(heroTitle.chars, {
     opacity: 0,
     filter: 'blur(60px)',
@@ -366,12 +425,12 @@ const preloaderTL = gsap
     //  onComplete: enableScrolling,
   })
   .from('.cover-arrow', {
-    //opacity: 0,
-    // filter: 'blur(60px)',
     y: '100%',
     duration: 0.75,
     ease: 'sine.out',
+    onComplete: startTypewriter,
   })
+
 function createAnimation() {
   const allMasks = Array.from(document.querySelectorAll('.word .line-mask'))
   const tl = gsap.timeline({
@@ -386,7 +445,7 @@ function createAnimation() {
   tl.to(allMasks, {
     width: '0%',
     duration: 1,
-    stagger: 0.5,
+    stagger: 1,
   })
 }
 /// Ends mask split-type gsap words
@@ -394,6 +453,55 @@ function createAnimation() {
 //refresh on resize
 window.addEventListener('resize', () => {
   runSplit()
-  ScrollTrigger.refresh()
+
   closeModal()
+  restartIntro()
 })
+
+const dropdowns = document.querySelectorAll('.dropdown')
+const dropdownLists = document.querySelectorAll('.dropdown-list')
+
+// Function to handle dropdown functionality based on screen size
+function handleDropdowns() {
+  if (window.innerWidth < 992) {
+    // Collapse all dropdown lists (set height to 0px)
+    dropdownLists.forEach((list) => {
+      list.classList.remove('expand')
+      list.style.height = '0px' // Collapse the dropdown lists
+    })
+
+    dropdowns.forEach((dropdown, index) => {
+      const toggle = dropdown.querySelector('.dropdown-toggle')
+      const dropdownList = dropdown.querySelector('.dropdown-list')
+
+      toggle.addEventListener('click', () => {
+        // Collapse all other dropdown lists
+        dropdownLists.forEach((list, listIndex) => {
+          if (listIndex !== index) {
+            list.classList.remove('expand')
+            list.style.height = '0px' // Ensure the collapsed state has height 0
+          }
+        })
+
+        // Toggle the current dropdown list
+        if (dropdownList.classList.contains('expand')) {
+          dropdownList.classList.remove('expand')
+          dropdownList.style.height = '0px'
+        } else {
+          dropdownList.classList.add('expand')
+          dropdownList.style.height = dropdownList.scrollHeight + 'px'
+        }
+      })
+    })
+  } else {
+    // For screens 769px and above, set all dropdown lists to height: auto
+    dropdownLists.forEach((list) => {
+      list.classList.remove('expand')
+      list.style.height = 'auto'
+    })
+  }
+}
+
+// Initial check and event listener for window resize
+handleDropdowns()
+window.addEventListener('resize', handleDropdowns)
