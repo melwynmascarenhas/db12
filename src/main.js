@@ -453,7 +453,7 @@ function createAnimation() {
 //refresh on resize
 window.addEventListener('resize', () => {
   runSplit()
-
+  hideMenu()
   closeModal()
   restartIntro()
 })
