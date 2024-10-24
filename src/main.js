@@ -33,6 +33,18 @@ Swiper.use([
   Parallax,
 ])
 
+//LENIS SCROLL
+window.onload = function () {
+  document.body.style.overflow = 'hidden'
+}
+
+function enableScrolling() {
+  // Enable scrolling after the delay
+  document.body.style.overflowY = 'auto'
+}
+
+//
+
 //typewriter
 let typewriters = document.querySelectorAll('.typewriter')
 typewriters.forEach((typewriter) => {
@@ -422,7 +434,7 @@ preloaderTL
     duration: 0.75,
     stagger: 0.075,
     ease: 'sine.out',
-    //  onComplete: enableScrolling,
+    onComplete: enableScrolling,
   })
   .from('.cover-arrow', {
     y: '100%',
