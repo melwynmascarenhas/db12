@@ -33,9 +33,41 @@ Swiper.use([
   Parallax,
 ])
 
+const preloaderTL = gsap.timeline()
+gsap.set('.loading-logo', { opacity: 0 })
+const loaderTimeline = gsap.timeline()
+loaderTimeline
+  .to('.loading-logo', { duration: 1, opacity: 1, ease: 'power1.inOut' })
+  .to('.loading-logo', { duration: 1, opacity: 0, ease: 'power1.inOut' })
+  .repeat(3)
+
 //LENIS SCROLL
 window.onload = function () {
   document.body.style.overflow = 'hidden'
+
+  preloaderTL.add(loaderTimeline)
+
+  preloaderTL
+    .to('.preloader-container', {
+      opacity: 0,
+      duration: 2,
+      ease: 'power4.inOut',
+    })
+    .from(heroTitle.chars, {
+      opacity: 0,
+      filter: 'blur(60px)',
+      y: 50,
+      duration: 0.75,
+      stagger: 0.075,
+      ease: 'sine.out',
+      onComplete: enableScrolling,
+    })
+    .from('.cover-arrow', {
+      y: '100%',
+      duration: 0.75,
+      ease: 'sine.out',
+      onComplete: startTypewriter,
+    })
 }
 
 function enableScrolling() {
@@ -410,38 +442,6 @@ function runSplit() {
   createAnimation()
 }
 runSplit()
-
-const preloaderTL = gsap.timeline()
-gsap.set('.loading-logo', { opacity: 0 })
-const loaderTimeline = gsap.timeline()
-loaderTimeline
-  .to('.loading-logo', { duration: 1, opacity: 1, ease: 'power1.inOut' })
-  .to('.loading-logo', { duration: 1, opacity: 0, ease: 'power1.inOut' })
-  .repeat(3)
-
-preloaderTL.add(loaderTimeline)
-
-preloaderTL
-  .to('.preloader-container', {
-    opacity: 0,
-    duration: 2,
-    ease: 'power4.inOut',
-  })
-  .from(heroTitle.chars, {
-    opacity: 0,
-    filter: 'blur(60px)',
-    y: 50,
-    duration: 0.75,
-    stagger: 0.075,
-    ease: 'sine.out',
-    onComplete: enableScrolling,
-  })
-  .from('.cover-arrow', {
-    y: '100%',
-    duration: 0.75,
-    ease: 'sine.out',
-    onComplete: startTypewriter,
-  })
 
 function createAnimation() {
   const allMasks = Array.from(document.querySelectorAll('.word .line-mask'))
