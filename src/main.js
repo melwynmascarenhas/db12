@@ -519,8 +519,8 @@ const imagewrappers = document.querySelectorAll('.section-padding.experience')
 imagewrappers.forEach((item) => {
   let image = item.querySelector('.image')
   gsap.to(image, {
-    bottom: '-30%',
-    ease: 'power4.inOut',
+    bottom: '-25%',
+    ease: 'none',
     scrollTrigger: {
       trigger: item,
       start: 'top bottom',
