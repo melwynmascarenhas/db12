@@ -514,6 +514,23 @@ function handleDropdowns() {
   }
 }
 
+//PROJ IMAGES PARALLAX
+const imagewrappers = document.querySelectorAll('.section-padding.experience')
+imagewrappers.forEach((item) => {
+  let image = item.querySelector('.image')
+  gsap.to(image, {
+    bottom: '-10%',
+    ease: 'power4.inOut',
+    scrollTrigger: {
+      trigger: item,
+      start: 'top bottom',
+      end: 'bottom top',
+      scrub: true,
+      // markers: true,
+    },
+  })
+})
+
 // Initial check and event listener for window resize
 handleDropdowns()
 window.addEventListener('resize', handleDropdowns)
