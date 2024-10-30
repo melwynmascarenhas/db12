@@ -39,7 +39,7 @@ const loaderTimeline = gsap.timeline()
 loaderTimeline
   .to('.loading-logo', { duration: 1, opacity: 1, ease: 'power1.inOut' })
   .to('.loading-logo', { duration: 1, opacity: 0, ease: 'power1.inOut' })
-  .repeat(3)
+  .repeat(2)
 
 //LENIS SCROLL
 window.onload = function () {
@@ -519,7 +519,7 @@ const imagewrappers = document.querySelectorAll('.section-padding.experience')
 imagewrappers.forEach((item) => {
   let image = item.querySelector('.image')
   gsap.to(image, {
-    bottom: '-20%',
+    bottom: '-30%',
     ease: 'power4.inOut',
     scrollTrigger: {
       trigger: item,
