@@ -43,7 +43,7 @@ loaderTimeline
 
 //LENIS SCROLL
 window.onload = function () {
-  //document.body.style.overflow = 'hidden'
+  document.body.style.overflow = 'hidden'
 
   preloaderTL.add(loaderTimeline)
 
