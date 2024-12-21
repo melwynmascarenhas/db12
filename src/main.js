@@ -344,7 +344,7 @@ let swipers = []
 
 function initializeSwipers() {
   const swiperContainers = document.querySelectorAll(
-    '.section-padding.experience-features'
+    '.padding-global.experience-features'
   )
 
   swiperContainers.forEach((container, index) => {
@@ -515,7 +515,7 @@ function handleDropdowns() {
 }
 
 //PROJ IMAGES PARALLAX
-const imagewrappers = document.querySelectorAll('.section-padding.experience')
+const imagewrappers = document.querySelectorAll('.padding-global.experience')
 imagewrappers.forEach((item) => {
   let image = item.querySelector('.image')
   gsap.to(image, {
