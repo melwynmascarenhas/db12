@@ -43,8 +43,6 @@ loaderTimeline
 
 //LENIS SCROLL
 window.onload = function () {
-  document.body.style.overflow = 'hidden'
-
   preloaderTL.add(loaderTimeline)
 
   preloaderTL
@@ -60,7 +58,6 @@ window.onload = function () {
       duration: 0.75,
       stagger: 0.075,
       ease: 'sine.out',
-      onComplete: enableScrolling,
     })
     .from('.cover-arrow', {
       y: '100%',
@@ -68,11 +65,6 @@ window.onload = function () {
       ease: 'sine.out',
       onComplete: startTypewriter,
     })
-}
-
-function enableScrolling() {
-  // Enable scrolling after the delay
-  document.body.style.overflowY = 'auto'
 }
 
 //
