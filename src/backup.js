@@ -125,7 +125,7 @@ ScrollTrigger.create({
   },
   id: 'myTrigger', // Assign an ID to the ScrollTrigger instance
 })
-//// NUMBER CODE ENDS HERE
+//// NUMBER CODE ENDS HERE/
 
 //SWIPERS CODE START HERE
 
